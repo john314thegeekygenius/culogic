@@ -10,7 +10,7 @@
 
 #include "cuheads.h"
 
-CUEditor editor;
+CULogic editor;
 
 void breakHandle(int e){
 	editor.halt(e);
@@ -72,77 +72,13 @@ void CULogic::run(){
 		drawGUI();
 
 		if(shuttingDown){
-			// Close all the files
-			if(fileList.size()){
-				if(closeCurrentFile() == false){
-					shuttingDown = false;
-				}
-			}else{
-				running = false;
-			}
+			running = false;
 		}else{
 
 			CU::keyCode key = videoDriver.getkey();
 
 			if(key == CU::keyCode::k_escape){
-				MainMenuTabsSelected = !MainMenuTabsSelected;
-				if(MainMenuTabsSelected){
-					mainMenu.selectTab(0);
-				}else{
-					mainMenu.closeTab(mainMenu.getTab());
-					mainMenu.selectTab(-1);
-				}
-			}
-
-			if(MainMenuTabsSelected){
-				if(key == CU::keyCode::s_left){
-					mainMenu.closeTab(mainMenu.getTab());
-					int cur = mainMenu.getTab() - 1;
-					if(cur < 0) { cur = 0; }
-					mainMenu.selectTab(cur);
-				}
-				if(key == CU::keyCode::s_right){
-					mainMenu.closeTab(mainMenu.getTab());
-					int cur = mainMenu.getTab() + 1;
-					if(cur >= mainMenu.numTabs()) { cur = mainMenu.numTabs()-1; }
-					mainMenu.selectTab(cur);
-				}
-				if(key == CU::keyCode::k_tab){
-					mainMenu.closeTab(mainMenu.getTab());
-					int cur = mainMenu.getTab() + 1;
-					if(cur >= mainMenu.numTabs()) { cur = 0; }
-					mainMenu.selectTab(cur);
-				}
-				if(key == CU::keyCode::k_enter){
-					if(mainMenu.tabOpen(mainMenu.getTab())){
-						// Run the sub function for that menu
-						mainMenu.runSubMenu(mainMenu.getTab(), mainMenu.curSubMenu(mainMenu.getTab()));
-						// Close the tab
-						mainMenu.closeTab(mainMenu.getTab());
-						// We don't want to still be on the main menu tabs
-						MainMenuTabsSelected = false;
-						mainMenu.selectTab(-1);
-					}else{
-						mainMenu.openTab(mainMenu.getTab());
-					}
-				}
-				if(key == CU::keyCode::s_up){
-					if(mainMenu.tabOpen(mainMenu.getTab())){
-						mainMenu.selectMenu(mainMenu.getTab(), mainMenu.curSubMenu(mainMenu.getTab())-1);
-					}
-				}
-				if(key == CU::keyCode::s_down){
-					if(mainMenu.tabOpen(mainMenu.getTab())){
-						mainMenu.selectMenu(mainMenu.getTab(), mainMenu.curSubMenu(mainMenu.getTab())+1);
-					}
-				}
-			}else{
-				if(EditorSelected){
-					doEditor(key);
-				}else if(TerminalSelected){
-					// TODO:
-					// Add terminal
-				}
+				close();
 			}
 		}
 
@@ -164,7 +100,7 @@ void CULogic::run(){
 };
 
 void CULogic::shutdown(){
-
+	
 };
 
 void CULogic::halt(int e){
@@ -174,52 +110,12 @@ void CULogic::halt(int e){
 void CULogic::drawGUI(){
 	// Clear the screen
 	videoDriver.clear();
-	videoDriver.drawBar(0,0,videoDriver.getWidth(), videoDriver.getHeight(), ' ', settings.foreground_color, settings.background_color);
+	videoDriver.drawBar(0,0,videoDriver.getWidth(), videoDriver.getHeight(), ' ', CU::Color::BLACK, CU::Color::L_BLACK);
 	// Draw the header
-	videoDriver.drawBar(0,0,videoDriver.getWidth(), 1, ' ', settings.head_fg_color, settings.head_bg_color);
+	videoDriver.drawBar(0,0,videoDriver.getWidth(), 1, ' ', CU::Color::BLUE, CU::Color::GREEN);
 
-	// Write the IDE name
-	videoDriver.writeStr("CU Edit IDE",0,0);
-
-	// Write the current time
-	std::time_t t = std::time(0);
-    std::tm *tstruct = localtime(&t);
-    	
-	int hour = tstruct->tm_hour;
-	int minute = tstruct->tm_min;
-	int second = tstruct->tm_sec;
-
-	std::string timestr = "";
-	
-	timestr += CU::to_string(hour,2) + ':';
-	timestr += CU::to_string(minute,2) +':';
-	timestr += CU::to_string(second,2);
-	
-	// Center the time
-	videoDriver.writeStr(timestr,(videoDriver.getWidth()>>1) - (timestr.length() >> 1) ,0);
-
-	// Write the current date
-	
-	int month = tstruct->tm_mon+1;
-	int day = tstruct->tm_mday;
-	int year = tstruct->tm_year+1900;
-
-	std::string datestr = "";
-	
-	datestr += CU::to_string(month,2) + '/';
-	datestr += CU::to_string(day,2) +'/';
-	datestr += CU::to_string(year,4);
-	
-	// Center the time
-	videoDriver.writeStr(datestr, (videoDriver.getWidth() - datestr.length()) ,0);
-
-	// Draw the editor
-	if(EditorOpen){
-		drawEditor();
-	}
-
-	// Draw the menus
-	mainMenu.draw(videoDriver,0);
+	// Write the header
+	videoDriver.writeStr("CU Logic",0,0);
 
 };
 
@@ -255,11 +151,11 @@ void CULogic::ErrorMsgBox(std::string error){
 		// Draw a window
 
 		// Draw the background
-		videoDriver.drawBar(menuX,menuY,menuWidth,menuHeight, ' ', settings.sub_menu_fg_color, settings.sub_menu_bg_color);
+		videoDriver.drawBar(menuX,menuY,menuWidth,menuHeight, ' ', CU::Color::CYAN, CU::Color::L_WHITE);
 		// Draw a feild
-		videoDriver.drawBox(menuX,menuY,menuWidth,menuHeight, CU::BlockType::SINGLE, settings.sub_menu_fg_color, settings.sub_menu_bg_color);
+		videoDriver.drawBox(menuX,menuY,menuWidth,menuHeight, CU::BlockType::SINGLE, CU::Color::CYAN, CU::Color::L_WHITE);
 		// Draw a title bar
-		videoDriver.drawBar(menuX,menuY,menuWidth, 1, ' ', settings.menu_bar_fg_color, settings.menu_bar_bg_color);
+		videoDriver.drawBar(menuX,menuY,menuWidth, 1, ' ', CU::Color::CYAN, CU::Color::L_WHITE);
 		videoDriver.writeStr("Error!", menuX + (menuWidth>>1)-5, menuY);
 
 		videoDriver.writeStr(error, menuX + (menuWidth>>1)-(error.length()>>1), menuY+(menuHeight>>1));
@@ -315,11 +211,11 @@ bool CULogic::AreYouSure(std::string warning){
 		// Draw a window
 
 		// Draw the background
-		videoDriver.drawBar(menuX,menuY,menuWidth,menuHeight, ' ', settings.sub_menu_fg_color, settings.sub_menu_bg_color);
+		videoDriver.drawBar(menuX,menuY,menuWidth,menuHeight, ' ', CU::Color::CYAN, CU::Color::L_WHITE);
 		// Draw a feild
-		videoDriver.drawBox(menuX,menuY,menuWidth,menuHeight, CU::BlockType::SINGLE, settings.sub_menu_fg_color, settings.sub_menu_bg_color);
+		videoDriver.drawBox(menuX,menuY,menuWidth,menuHeight, CU::BlockType::SINGLE, CU::Color::CYAN, CU::Color::L_WHITE);
 		// Draw a title bar
-		videoDriver.drawBar(menuX,menuY,menuWidth, 1, ' ', settings.menu_bar_fg_color, settings.menu_bar_bg_color);
+		videoDriver.drawBar(menuX,menuY,menuWidth, 1, ' ', CU::Color::CYAN, CU::Color::L_WHITE);
 		videoDriver.writeStr("Are you sure?", menuX + (menuWidth>>1)-5, menuY);
 		std::string wmsg = "Are you sure you want to";
 		videoDriver.writeStr(wmsg, menuX + (menuWidth>>1)-(wmsg.length()>>1), menuY+(menuHeight>>1));
@@ -374,13 +270,13 @@ std::string CULogic::getUserString(std::string msg,int maxLength){
 		// Draw a window
 
 		// Draw the background
-		videoDriver.drawBar(menuX,menuY,menuWidth,menuHeight, ' ', settings.sub_menu_fg_color, settings.sub_menu_bg_color);
+		videoDriver.drawBar(menuX,menuY,menuWidth,menuHeight, ' ', CU::Color::CYAN, CU::Color::L_WHITE);
 		// Draw a feild
-		videoDriver.drawBox(menuX,menuY,menuWidth,menuHeight, CU::BlockType::SINGLE, settings.sub_menu_fg_color, settings.sub_menu_bg_color);
+		videoDriver.drawBox(menuX,menuY,menuWidth,menuHeight, CU::BlockType::SINGLE, CU::Color::CYAN, CU::Color::L_WHITE);
 		// Draw a title bar
-		videoDriver.drawBar(menuX,menuY,menuWidth, 1, ' ', settings.menu_bar_fg_color, settings.menu_bar_bg_color);
+		videoDriver.drawBar(menuX,menuY,menuWidth, 1, ' ', CU::Color::CYAN, CU::Color::L_WHITE);
 		// Draw a text feild
-		videoDriver.drawBox(menuX+2,menuY+3,menuWidth-4,3, CU::BlockType::DOUBLE, settings.sub_menu_fg_color, settings.sub_menu_bg_color);
+		videoDriver.drawBox(menuX+2,menuY+3,menuWidth-4,3, CU::BlockType::DOUBLE, CU::Color::CYAN, CU::Color::L_WHITE);
 
 		videoDriver.writeStr("Input Feild", menuX + (menuWidth>>1)-5, menuY);
 		videoDriver.writeStr(msg, menuX + (menuWidth>>1)-(msg.length()>>1), menuY+2);
