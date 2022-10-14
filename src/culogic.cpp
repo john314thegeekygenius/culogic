@@ -83,12 +83,13 @@ void CULogic::run(){
 		}
 
 		// Make the cursor blink every half a second
+		/*
 		using namespace std::chrono;
 		uint64_t vtime_now = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 		if(vtime_now >= cursorTime){
 			cursorTime = vtime_now + 500;
 			cursorBlink = !cursorBlink; 
-		}
+		}*/
 
 		videoDriver.clearHalt();
 
@@ -292,20 +293,7 @@ std::string CULogic::getUserString(std::string msg,int maxLength){
 };
 
 void CULogic::handleInt(){
-	switch((CUBreakType)videoDriver.halted()){
-		case CUBreakType::SAVE_EXIT:
-			// Save the project and exit
-			shutdown();
-		break;
-		case CUBreakType::COPY:
-			// TODO:
-			// Copy selected text to clipboard
-			break;
-		case CUBreakType::UNDO:
-			// TODO:
-			// Undo changes until the buffer is empty
-			break;
-	}
-	
+//	switch(videoDriver.halted()){
+//	}	
 };
 
