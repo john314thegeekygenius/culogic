@@ -31,17 +31,23 @@ typedef struct ElementPin {
 
 typedef LOGIC (*ElementFunction)(std::vector<ElementPin*> &inputs);
 
+typedef struct ElementSymbol {
+    std::vector<int> data;
+}ElementSymbol;
+
 class Element {
 private:
     std::vector<ElementPin*> inputs;
+    ElementSymbol symbol;
 public:
     Element();
-    Element(ElementFunction func);
+    Element(ElementFunction func, ElementSymbol symb);
 
     ElementFunction result = nullptr;
     void setFunction(ElementFunction func);
+    void setSymbol(ElementSymbol symb);
 };
-
+/*
 class Component {
 private:
     std::vector<Element> ElementList;
@@ -49,15 +55,15 @@ public:
 
 
 };
-
-
-// Default logic gates
-extern Element CUE_NotGate;
-extern Element CUE_AndGate;
-extern Element CUE_OrGate;
-extern Element CUE_XOrGate;
+*/
 
 };
 
+
+// Default logic gates
+extern CU::Element CUE_NotGate;
+extern CU::Element CUE_AndGate;
+extern CU::Element CUE_OrGate;
+extern CU::Element CUE_XOrGate;
 
 

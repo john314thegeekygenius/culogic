@@ -37,6 +37,9 @@ void CULogic::init(int argc, char *argv[]){
 
 	shuttingDown = false;
 
+	project.create("Untitled");
+	project.addElement(CUE_NotGate);
+
 	//clipboard.clear();
 
 	//loadSettings();

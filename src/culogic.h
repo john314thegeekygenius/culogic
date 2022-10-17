@@ -18,6 +18,7 @@ private:
 	//CUSettings settings;
 	bool running = false;
 	bool shuttingDown = false;
+	CU::Project project;
 	
 public:
 	void init(int argc, char *argv[]);

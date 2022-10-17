@@ -15,3 +15,10 @@ CU::Project::Project(){
 
 };
 
+void CU::Project::create(std::string name){
+	
+};
+
+void CU::Project::addElement(Element &element){
+	
+};

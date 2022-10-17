@@ -17,4 +17,6 @@
 
 #include "cuelement.h"
 
+#include "cuproject.h"
+
 #include "culogic.h"

@@ -14,11 +14,15 @@ namespace CU {
 
 class Project {
 private:
-    std::vector<Component> components;
+    std::vector<Element> elementList;
 public:
     Project();
 
-    void addComponent();
+    void create(std::string name);
+
+    void addElement(Element &element);
+
+    void advance();
 };
 
 };
