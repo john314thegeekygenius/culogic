@@ -15,5 +15,6 @@
 
 #include "cudriver.h"
 
-#include "culogic.h"
+#include "cuelement.h"
 
+#include "culogic.h"
