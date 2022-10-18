@@ -10,6 +10,9 @@
 
 namespace CU {
 
+int getCurrentSimulationTick();
+int getCurrentSimulationSpeed();
+
 };
 
 class CULogic {
@@ -31,6 +34,9 @@ public:
 	void drawGUI();
 	void fixCursor();
 
+	int getSimuTick();
+	int getSimuRate();
+
 	void handleArgs(int argc, char *argv[]);
 
 	void ErrorMsgBox(std::string error);
@@ -38,5 +44,8 @@ public:
 	std::string getUserString(std::string msg, int maxLength = -1);
 
 };
+
+extern CU::ElementPin CUP_CONST_LOW;
+extern CU::ElementPin CUP_CONST_HIGH;
 
 

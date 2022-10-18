@@ -79,6 +79,10 @@ enum class BlockChar{
 	LIGHT_SHADE = 0x8017,
 	MID_SHADE = 0x8018,
 	DARK_SHADE = 0x8019,
+	// Other
+	XCROSS = 0x801A,
+//	OVERBAR = 0x801B,
+
 };
 
 const int UNIBlockCount = 0x26;
@@ -113,6 +117,9 @@ const std::string UNIBlockChars [] = {
 	"\u2590",
 	"\u2591",
 	"\u2592",
+	// Other
+	"\u2573",
+//	"\u203E", // Used in conjunction with another character
 };
 
 enum class BlockType {
@@ -214,6 +221,10 @@ public:
 	void flush();
 	void writeBChar(BlockChar c);
 	void writeBChar(BlockChar c, Color fg, Color bg);
+
+	void drawVLine(int x,int y,int h, BlockType t, Color fg = Color::WHITE, Color bg = Color::BLACK);
+	void drawHLine(int x,int y,int w, BlockType t, Color fg = Color::WHITE, Color bg = Color::BLACK);
+
 	void drawBox(int x,int y,int w,int h,BlockType t, Color fg = Color::WHITE, Color bg = Color::BLACK);
 	void drawSubBox(int x,int y,int w,int h,BlockType t, Color fg = Color::WHITE, Color bg = Color::BLACK);
 	void drawBar(int x,int y,int w,int h, int floodchar = ' ', Color fg = Color::WHITE, Color bg = Color::BLACK);
@@ -233,6 +244,8 @@ public:
 };
 
 int stoi(std::string in_str);
+
+uint64_t getMillis();
 
 std::string to_string(int value,int fill = 1);
 

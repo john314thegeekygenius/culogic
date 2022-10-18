@@ -12,6 +12,16 @@
 
 CULogic editor;
 
+
+int CU::getCurrentSimulationTick(){
+	return editor.getSimuTick();
+};
+
+int CU::getCurrentSimulationSpeed(){
+	return editor.getSimuRate();
+};
+
+
 void breakHandle(int e){
 	editor.halt(e);
 //	CU::debugWrite("int "+std::to_string(e));
@@ -37,8 +47,11 @@ void CULogic::init(int argc, char *argv[]){
 
 	shuttingDown = false;
 
+	CU::GenerateElements();
+
 	project.create("Untitled");
 	project.addElement(CUE_NotGate);
+	project.addElement(CUE_ClockSynced);
 
 	//clipboard.clear();
 
@@ -69,10 +82,16 @@ void CULogic::close(){
 void CULogic::run(){
 	int cx = 0;
 	int cy = 0;
+	uint64_t nextTime = 0;
 	while(running){
 		CU::Mouse_t termMouse = videoDriver.getMouse();
 
 		drawGUI();
+
+		if(CU::getMillis() >= nextTime){
+			nextTime = CU::getMillis() + project.getSimuSpeed();
+			project.advance();
+		}
 
 		if(shuttingDown){
 			running = false;
@@ -111,6 +130,14 @@ void CULogic::halt(int e){
 	videoDriver.halt(e);
 };
 
+int CULogic::getSimuTick(){
+	return project.getTick();
+};
+
+int CULogic::getSimuRate(){
+	return project.getSimuSpeed();
+};
+
 void CULogic::drawGUI(){
 	// Clear the screen
 	videoDriver.clear();
@@ -120,6 +147,8 @@ void CULogic::drawGUI(){
 
 	// Write the header
 	videoDriver.writeStr("CU Logic",0,0);
+
+	project.printOscilloscope(videoDriver);
 
 };
 

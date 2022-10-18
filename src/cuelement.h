@@ -12,13 +12,19 @@
 
 namespace CU {
 
+const int MAX_GATE_PINS = 16;
+
 enum class LOGIC {
-    LOW = false,
-    HIGH = true,
+    LOW = 0,
+    HIGH = 1,
+    UNKNOWN = 2,
 };
 
 typedef struct ElementPin {
-    LOGIC data;
+    LOGIC data = LOGIC::UNKNOWN;
+    void SET(LOGIC d){
+        data = d;
+    };
     LOGIC NOT(){
         if(data == LOGIC::LOW)
             return LOGIC::HIGH;
@@ -27,9 +33,11 @@ typedef struct ElementPin {
     LOGIC SELF(){
         return data;
     };
+    ElementPin *from = nullptr;
+    ElementPin *to = nullptr;
 }ElementPin;
 
-typedef LOGIC (*ElementFunction)(std::vector<ElementPin*> &inputs);
+typedef void (*ElementFunction)(std::vector<ElementPin> &inputs, std::vector<ElementPin> &outputs);
 
 typedef struct ElementSymbol {
     std::vector<int> data;
@@ -37,16 +45,44 @@ typedef struct ElementSymbol {
 
 class Element {
 private:
-    std::vector<ElementPin*> inputs;
+    std::vector<ElementPin> inputs;
+    std::vector<ElementPin> outputs;
+
+    int numInputs;
+    int numOutputs;
+
     ElementSymbol symbol;
 public:
-    Element();
-    Element(ElementFunction func, ElementSymbol symb);
 
-    ElementFunction result = nullptr;
+    Element();
+
+    // Copy constructor
+    Element(const Element& e);
+
+    ~Element();
+    
+    void init(ElementFunction func, ElementSymbol symb, int numIn = 0, int numOut = 1);
+
+    ElementFunction callback = nullptr;
     void setFunction(ElementFunction func);
+    void run();
+
+    void setOutput(ElementPin *pin, int outPin);
+    void setInput(ElementPin *pin, int inPin);
+
+    int getInputs();
+    int getOutputs();
+
+    ElementPin *outputPin(int index);
     void setSymbol(ElementSymbol symb);
 };
+
+typedef struct Portal {
+    ElementPin* pin = nullptr;
+    std::string uuid = "";
+}Portal;
+
+
 /*
 class Component {
 private:
@@ -57,6 +93,8 @@ public:
 };
 */
 
+void GenerateElements();
+
 };
 
 
@@ -65,5 +103,6 @@ extern CU::Element CUE_NotGate;
 extern CU::Element CUE_AndGate;
 extern CU::Element CUE_OrGate;
 extern CU::Element CUE_XOrGate;
-
-
+// Default Special Gates
+extern CU::Element CUE_ClockSynced;
+//extern CU::Element CUE_ClockASynced;

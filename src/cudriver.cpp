@@ -309,6 +309,61 @@ void CU::Driver::writeBChar(CU::BlockChar c, CU::Color fg, CU::Color bg){
 	scrBuffer[scrSize+(scrCurPos[1]*scrWidth) + scrCurPos[0]] = (((int)fg)<<8) | (int)bg;
 };
 
+void CU::Driver::drawVLine(int x,int y,int h, CU::BlockType t, CU::Color fg , CU::Color bg ){
+	int schar = 0;
+
+	switch(t){
+		case CU::BlockType::BLOCK:
+			schar = (int)CU::BlockChar::SOLID;
+			break;
+		case CU::BlockType::DOUBLE:
+			schar = (int)CU::BlockChar::DVBAR;
+			break;
+		case CU::BlockType::TXT:
+			schar = (int)'|';
+			break;
+		case CU::BlockType::SINGLE:
+			schar = (int)CU::BlockChar::VBAR;
+			break;
+	}
+
+	for(int i = y; i < y+h; i++){
+		int offset = (i*scrWidth) + x;
+		if(offset > 0 && offset < scrSize){
+			scrBuffer[offset] = (int)schar;
+			scrBuffer[scrSize+offset] = (((int)fg)<<8) | (int)bg;
+		}
+	}
+};
+
+void CU::Driver::drawHLine(int x,int y,int w, CU::BlockType t, CU::Color fg , CU::Color bg ){
+	int schar = 0;
+
+	switch(t){
+		case CU::BlockType::BLOCK:
+			schar = (int)CU::BlockChar::SOLID;
+			break;
+		case CU::BlockType::DOUBLE:
+			schar = (int)CU::BlockChar::DHBAR;
+			break;
+		case CU::BlockType::TXT:
+			schar = (int)'-';
+			break;
+		case CU::BlockType::SINGLE:
+			schar = (int)CU::BlockChar::HBAR;
+			break;
+	}
+
+	for(int i = x; i < x+w; i++){
+		int offset = (y*scrWidth) + i;
+		if(offset > 0 && offset < scrSize){
+			scrBuffer[offset] = (int)schar;
+			scrBuffer[scrSize+offset] = (((int)fg)<<8) | (int)bg;
+		}
+	}
+
+};
+
 void CU::Driver::drawBox(int x,int y,int w,int h,CU::BlockType t, CU::Color fg, CU::Color bg){
 	int schar = 0;
 
@@ -842,6 +897,13 @@ CU::Mouse_t CU::Driver::getMouse(){
 	terminalMouse.buttonMask = CU::MouseMask::NONE;
 	terminalMouse.scroll = 0;
 	return mcpy;
+};
+
+uint64_t CU::getMillis(){
+	// Wait for the FPS to be correct before we draw the screen
+	using namespace std::chrono;
+	uint64_t vtime_now = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+	return vtime_now;
 };
 
 int CU::stoi(std::string in_str){
