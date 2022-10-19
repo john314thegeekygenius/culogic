@@ -249,6 +249,8 @@ uint64_t getMillis();
 
 std::string to_string(int value,int fill = 1);
 
+std::string addr_string(const void *addr);
+
 std::string to_stringc(int value,char fillc = '0', int fillw = 1);
 
 std::string trimString(std::string s, int w);

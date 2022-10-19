@@ -1,5 +1,51 @@
 INFO:Opened debug file
 INFO:Setup Handler
+INFO:Initzied Element:1 vs. 11 vs. 1
+INFO:Initzied Element:2 vs. 21 vs. 1
+INFO:Initzied Element:2 vs. 21 vs. 1
+INFO:Initzied Element:2 vs. 21 vs. 1
+INFO:Initzied Element:0 vs. 01 vs. 1
+INFO:Initzied Element:0 vs. 01 vs. 1
+INFO:Inputs:2
+INFO:Inputs:2
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
+INFO:Raw bytes:1
+INFO:Raw:32
 INFO:Raw bytes:1
 INFO:Raw:32
 INFO:Raw bytes:1

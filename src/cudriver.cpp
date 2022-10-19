@@ -931,6 +931,12 @@ std::string CU::to_stringc(int value,char fillc, int fillw){
 };
 
 
+std::string CU::addr_string(const void *addr){
+	std::stringstream ss;
+	ss << addr;  
+	return ss.str(); 
+};
+
 void CU::Clamp(int &x, int &y, int &w, int &h, int minx, int miny, int maxw, int maxh){
 	if(x < minx) { x = minx; }
 	if(y < miny) { y = miny; }

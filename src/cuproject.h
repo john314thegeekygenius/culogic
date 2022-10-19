@@ -22,18 +22,23 @@ typedef struct OsciliTick {
 class Project {
 private:
     std::vector<Element> elementList;
+    std::vector<OsciliTick> osciliMemory;
     std::vector<Portal> fromPins;
     std::vector<Portal> toPins;
-    std::vector<OsciliTick> osciliMemory;
 
     int currentTick = 0;
-    int simulationSpeed = 250; // Number of milliseconds per gate
+    int simulationSpeed = 250; // Number of milliseconds per tick
+
 public:
     Project();
 
     void create(std::string name);
 
-    void addElement(Element &element);
+    int addElement(Element &element);
+
+    void connectElements(int f, int fpin, int t, int tpin);
+
+    void probeElement(int e, int opin, std::string pn);
 
     void advance();
 

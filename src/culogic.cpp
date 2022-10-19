@@ -50,8 +50,24 @@ void CULogic::init(int argc, char *argv[]){
 	CU::GenerateElements();
 
 	project.create("Untitled");
-	project.addElement(CUE_NotGate);
-	project.addElement(CUE_ClockSynced);
+
+	// Create a clock
+	CU::Element tempE = CU::MakeClock(5);
+	int clk1 = project.addElement(tempE);
+
+	// Create an AND gate
+	int aref = project.addElement(CUE_AndGate);
+
+	tempE = CU::MakeClock(10);
+	int clk2 = project.addElement(tempE);
+
+	project.connectElements(clk1, 0, aref,0); 
+	project.connectElements(clk2, 0, aref,1); 
+
+	project.probeElement(clk1,0,"CLK_1");
+	project.probeElement(clk2,0,"CLK_2");
+	project.probeElement(aref,0,"AND");
+
 
 	//clipboard.clear();
 
@@ -90,6 +106,8 @@ void CULogic::run(){
 
 		if(CU::getMillis() >= nextTime){
 			nextTime = CU::getMillis() + project.getSimuSpeed();
+
+			CU::TickInternalClock();
 			project.advance();
 		}
 
