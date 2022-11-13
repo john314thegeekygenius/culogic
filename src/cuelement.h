@@ -185,53 +185,6 @@ typedef struct Portal {
 
 }Portal;
 
-/*
-class Element {
-private:
-
-    int numInputs;
-    int numOutputs;
-
-    ElementSymbol symbol;
-public:
-
-    std::vector<ElementPin> inputs;
-    std::vector<ElementPin> outputs;
-public:
-
-    Element();
-
-    // Copy constructor
-    Element(const Element& e);
-
-    ~Element();
-    
-    void init(ElementFunction func, ElementSymbol symb, int numIn = 0, int numOut = 1);
-
-    ElementFunction callback = nullptr;
-    void setFunction(ElementFunction func);
-    void run();
-
-    void setOutput(ElementPin *pin, int outPin);
-    void setInput(ElementPin *pin, int inPin);
-
-    int getInputs();
-    int getOutputs();
-
-    ElementPin *inputPin(int index);
-    ElementPin *outputPin(int index);
-    void setSymbol(ElementSymbol symb);
-};
-*/
-/*
-class Component {
-private:
-    std::vector<Element> ElementList;
-public:
-
-
-};
-*/
 
 void TickInternalClock();
 

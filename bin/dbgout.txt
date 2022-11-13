@@ -9,48 +9,4 @@ INFO:Initzied Element:0 vs. 01 vs. 1
 INFO:Inputs:2
 INFO:Inputs:2
 INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
-INFO:Raw:32
-INFO:Raw bytes:1
 INFO:Raw:27
